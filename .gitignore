@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 环境配置
+.env
+
+# 数据库
+*.db
+*.sqlite
+*.sqlite3
+
+# 日志
+logs/
+*.log
+
+# 调试文件
+debug_*.html
+
+# 测试
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 文档
+*.pdf
+*.html

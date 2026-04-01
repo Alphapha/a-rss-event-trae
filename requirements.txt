@@ -1,0 +1,15 @@
+# GitHub Trending 爬虫依赖
+
+# Web  scraping
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# 数据库
+sqlalchemy>=2.0.0
+
+# 环境变量管理
+python-dotenv>=1.0.0
+
+# HTTP 客户端增强
+urllib3>=2.0.0
