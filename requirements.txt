@@ -1,6 +1,15 @@
 # GitHub Trending 爬虫依赖
 
-# Web  scraping
+# Web 框架和 API
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+
+# 定时任务调度
+apscheduler>=3.10.0
+
+# Web scraping
 requests>=2.31.0
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
@@ -13,3 +22,6 @@ python-dotenv>=1.0.0
 
 # HTTP 客户端增强
 urllib3>=2.0.0
+
+# 跨域支持
+python-multipart>=0.0.6

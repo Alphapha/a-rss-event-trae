@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # GitHub Trending 数据服务
+  github-trending-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: github-trending-data
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      # 数据库配置
+      - DB_TYPE=sqlite
+      - SQLITE_DB_PATH=/app/data/github_trending.db
+      
+      # 爬取时间配置（24 小时制）
+      - DAILY_CRAWL_TIME=07:15
+      - WEEKLY_CRAWL_TIME=07:20
+      - MONTHLY_CRAWL_TIME=07:25
+      
+      # 代理配置（可选）
+      # - GITHUB_PROXY=http://proxy:port
+      
+      # 超时配置
+      - CRAWL_TIMEOUT=30
+      
+      # 日志级别
+      - LOG_LEVEL=INFO
+    volumes:
+      # 持久化数据库
+      - ./data:/app/data
+      # 持久化日志
+      - ./logs:/app/logs
+    networks:
+      - github-trending-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # PostgreSQL 数据库（可选，如果需要切换数据库）
+  postgres:
+    image: postgres:15-alpine
+    container_name: github-trending-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: github_trending
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - github-trending-network
+    profiles:
+      - postgres  # 默认不启动，使用 docker-compose --profile postgres up 启动
+
+volumes:
+  postgres_data:
+
+networks:
+  github-trending-network:
+    driver: bridge
