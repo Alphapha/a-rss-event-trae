@@ -10,9 +10,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# 安装依赖
+# 安装依赖到系统目录（不使用 --user）
 COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 运行阶段
 FROM python:3.11-slim
@@ -20,11 +20,9 @@ FROM python:3.11-slim
 # 设置工作目录
 WORKDIR /app
 
-# 复制已安装的依赖
-COPY --from=builder /root/.local /root/.local
-
-# 确保脚本在 PATH 中
-ENV PATH=/root/.local/bin:$PATH
+# 从 builder 复制系统包
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
 
 # 复制应用代码
 COPY . .
